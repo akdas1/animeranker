@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+<title>Hashira Ranker</title>
+<style>
+    .list-item {
+        padding: 10px;
+        border: 1px solid #ccc;
+        margin-bottom: 5px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+    }
+
+    .list-item img {
+        width: 50px;
+        height: 50px;
+        margin-right: 10px;
+    }
+</style>
+</head>
+<body>
+<div id="title-header">
+    <h2>Hashira Ranker</h2>
+    <p>Drag and drop the items to rank them in your preferred order.</p>
+</div>
+
+<div id="list-container">
+    <div class="list-item" draggable="true">
+        <div class="content-wrapper">
+            <span class="number">1.</span>
+            <img src="images/giyuu.jpeg" alt="Giyuu Tomioka">
+            <span>Giyuu Tomioka</span>
+        </div>
+    </div>
+    <div class="list-item" draggable="true">
+        <div class="content-wrapper">
+            <span class="number">2.</span>
+            <img src="images/shinobu.jpeg" alt="Shinobu Kocho">
+            <span>Shinobu Kocho</span>
+        </div>
+    </div>
+    <div class="list-item" draggable="true">
+        <div class="content-wrapper">
+            <span class="number">3.</span>
+            <img src="images/rengoku.jpeg" alt="Kyojuro Rengoku">
+            <span>Kyojuro Rengoku</span>
+        </div>
+    </div>
+    <div class="list-item" draggable="true">
+        <div class="content-wrapper">
+            <span class="number">4.</span>
+            <img src="images/uzui.jpeg" alt="Tengen Uzui">
+            <span>Tengen Uzui</span>
+        </div>
+    </div>
+    <div class="list-item" draggable="true">
+        <div class="content-wrapper">
+            <span class="number">5.</span>
+            <img src="images/muichiro.jpeg" alt="Muichiro Tokito">
+            <span>Muichiro Tokito</span>
+        </div>
+    </div>
+    <div class="list-item" draggable="true">
+        <div class="content-wrapper">
+            <span class="number">6.</span>
+            <img src="images/sanemi.jpeg" alt="Sanemi Shinazugawa">
+            <span>Sanemi Shinazugawa</span>
+        </div>
+    </div>
+    <div class="list-item" draggable="true">
+        <div class="content-wrapper">
+            <span class="number">7.</span>
+            <img src="images/mitsuri.jpeg" alt="Mitsuri Kanroji">
+            <span>Mitsuri Kanroji</span>
+        </div>
+    </div>
+    <div class="list-item" draggable="true">
+        <div class="content-wrapper">
+            <span class="number">8.</span>
+            <img src="images/gyomei.jpeg" alt="Gyomei Himejima">
+            <span>Gyomei Himejima</span>
+        </div>
+    </div>
+    <div class="list-item" draggable="true">
+        <div class="content-wrapper">
+            <span class="number">9.</span>
+            <img src="images/obanai.jpeg" alt="Obanai Iguro">
+            <span>Obanai Iguro</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    const listContainer = document.getElementById('list-container');
+
+    let draggedItem = null;
+
+    // listeners for drag and drop
+    listContainer.addEventListener('dragstart', function (event) {
+        draggedItem = event.target.closest('.list-item');
+        event.dataTransfer.setData('text/plain', event.target.innerHTML);
+    });
+
+    listContainer.addEventListener('dragover', function (event) {
+        event.preventDefault();
+    });
+
+    listContainer.addEventListener('drop', function (event) {
+        event.preventDefault();
+        const targetItem = event.target.closest('.list-item');
+        if (targetItem) {
+            const targetIndex = Array.from(listContainer.children).indexOf(targetItem);
+            const draggedIndex = Array.from(listContainer.children).indexOf(draggedItem);
+
+            if (targetIndex === 0) {
+                listContainer.insertBefore(draggedItem, targetItem);
+            } else {
+                // Swap the positions
+                targetItem.parentNode.insertBefore(draggedItem, targetItem.nextSibling);
+            }
+            updateNumbers(); // Update numbers after rearranging
+        }
+        draggedItem = null;
+    });
+
+    // update numbers
+    function updateNumbers() {
+        const listItems = document.querySelectorAll('.list-item');
+        listItems.forEach((item, index) => {
+            item.querySelector('.number').textContent = (index + 1) + '.';
+        });
+    }
+</script>
+<script src="rank.js"></script>
+</body>
+
+<footer>
+    <p id="foot">Created for Educational Practice.</p>
+</footer>
+</html>
